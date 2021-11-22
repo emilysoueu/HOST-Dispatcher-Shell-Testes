@@ -4,6 +4,9 @@ Profº: Antonio de Abreu Batista Jr
 
 
 #  Escalonamento da CPU
+- Tentar modificar o algoritmo de escalonamento em uso para um outro (qualquer um) que seja
+melhor do que ele.
+
 - Escolher qual processo pronto executar a seguir.
 
 <p>
