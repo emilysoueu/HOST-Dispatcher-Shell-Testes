@@ -19,3 +19,7 @@ melhor do que ele.
 
 # Entregáveis
 - Um vetor contendo em cada posição o tempo médio de espera para os tamnhos de fila prontos (8,16,32,64.128.256).
+
+### Referência
+Stallings, William.
+Operating systems : internals and design principles / William Stallings. — 7th ed
