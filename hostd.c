@@ -37,10 +37,16 @@ int main(int argc, char *argv[])
             handle_current_process();
         }
 
-        if ((real_time_queue || priority_one_queue) && (!current_process)) // Processos que ainda não foram completados
+        if ((real_time_queue ) && (!current_process)) // Processos que ainda não foram completados
         {
             assign_current_process();
         }
+
+         if (( priority_one_queue) && (!current_process)) // Processos que ainda não foram completados
+        {
+            assign_current_process();
+        }
+
 
         sleep(1);   // Sleep 1 second to simulate 1 second of work
         timer += 1; // Add 1 second to the current time
@@ -171,22 +177,7 @@ void handle_current_process()
         free(current_process);
         current_process = NULL;
     }
-    else // The process hasn't finished
-    {
-        if ((real_time_queue || user_job_queue || priority_one_queue) &&
-            (current_process->priority != 0)) // There are still jobs in the queue(s)
-        {
-            struct pcb *p = suspend_pcb(current_process); // Suspend current process
-
-            //----------------- PRECISO ALTERAR O PROCESSO DE ESCALONAMENTO AQUI----------------------
-
-            priority_one_queue = enqueue_pcb(priority_one_queue, p);
-
-            current_process = NULL; // Reset pointer to NULL since process has been suspended
-
-            struct pcb *pcbIncognita = NULL;
-        }
-    }
+    
 }
 
 void assign_current_process()
@@ -196,17 +187,20 @@ void assign_current_process()
         current_process = real_time_queue;
         real_time_queue = dequeue_pcb(real_time_queue);
     }
-    else if (priority_one_queue) // Then check priority one queue
+  
+   if (priority_one_queue) // Then check priority one queue
     {
         current_process = priority_one_queue;
         priority_one_queue = dequeue_pcb(priority_one_queue);
-    }
+    } 
+  
 
     if (current_process->pid != 0) // Check if the process has already been started before
     {
         restart_pcb(current_process); // If so, just restart it
     }
     else // Otherwise, the process is being started for the first time, so allocate memory and start it
+  
     {
         start_pcb(current_process);
         if (current_process->priority == 0)
